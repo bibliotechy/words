@@ -17,7 +17,7 @@ title: words from space by chad
 email: chadbnelson at gmail dot com
 description: > 
   Awesome description of words from space by chad that he cannot yet describe because he has not written them yet. But awesome. 
-baseurl: ""
+baseurl: "/words"
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: bibliotechy
 github_username:  bibliotechy
