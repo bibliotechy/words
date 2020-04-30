@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Learning to HathiTrust csvkit"
-date:   2020-04-12 22:38:37 -0400
+title:  "Learning to (Hathi) Trust the data, with csvkit"
+date:   2020-04-27 00:00:00 -0400
 categories: libraries
 ---
 
@@ -10,6 +10,8 @@ With the closing of Temple University's physical libraries due to covid-19, and 
 The rest of this blog post will detail the process we went through to understand that data and massage it into shape so we could include it in our ETL process that populates our library catalog, with the end goal of linking from catalog records to the HathiTrust record page where our users can access the digitized copy.
 
 This blog post is also about the amazing set of unix-like tools provided by [csvkit](https://csvkit.readthedocs.io/en/latest/), because I used them almost exclusively to do this work. It was my first time using these tools, and they were perfect for the job and well documented, so they deserve some praise, which they'll get below.
+
+This post meanders a bit, as it mostly documents my organic process of understanding the data and the tools. If you're impatient like I often am, you can skip to the [summary](#summary) that is much more concise, just laying out the steps you need to transform an overlap report into a usable lookup table.
 
 Also, huge shout out to [Frances Webb's blog post](http://blogs.cornell.edu/discoveryandaccess/2020/04/01/adding-hathitrust-emergency-access-links/) on how Cornell worked with the Hathi overlap report to get links into their catalog, as it helped me skip a few steps in understanding the shape of data, and some pitfalls to avoid.
 
@@ -29,7 +31,7 @@ The overlap file provided by Hathi is a five column TSV file, with columns:
 * access: allow, deny or blank
 * rights : many different values, none of which are important for our use case.
 
-The file is about 100Mb, so not enormous, but big enough that some process were a bit slow. There wasn't any documentation of the overlap file that I know of, but I was able to infer some stuff from browsing the data a bit, and from looking at the hathi data documentionn.
+The file is about 100Mb, so not enormous, but big enough that some process were a bit slow. There wasn't any documentation of the overlap file that I know of, but I was able to infer some stuff from browsing the data a bit, and from looking at Hathi's data documentation.
 
 During the ETAS, we will have access to all of the items with either `allow` or `deny` in the access column. If the access column is empty, it means Hathi does not have a copy of it, so there is nothing to link to, so we can effectively ignore those.
 
@@ -135,7 +137,7 @@ csvstat  ht_overlap_mono.csv
                            ic-world (854x)
 ```
 
-`csvstat` outputs a lot more analysis than I expected (and was a bit noisy with our numberic identifiers), but there are some particularly useful items in there, specifically the:
+`csvstat` outputs a lot more analysis than I expected (and was a bit noisy with our numeric identifiers), but there are some particularly useful items in there, specifically the:
 
 * reports for item_type, access, and rights report that they have no null values, indicating we have removed the rows for which Hathi does not have a copy.
 * unique values for access, show us that the only two values present are allow and deny. The ETAS means we get access to deny as well as access, so that's exactly what we were looking for.
@@ -157,11 +159,11 @@ Now that we have these three files, representing the physical items in our colle
 
 ## Connecting to HathiTrust Records
 
-So, while we could use the oclc number we already have with the [Hathi bibligraphic api](https://www.hathitrust.org/bib_api) to dynamically look up the Hathi Record URL when our catalog display an item from the processed overlap report, that would mean we don't know which items were available until page load, meaning it would not reflect in our existing affordances for "Online Resources" like facets. To integrate with existing affordances, we need to get the data into the Solr collection that powers our catalog.
+So, while we could use the OCLC number we already have with the [Hathi bibliographic api](https://www.hathitrust.org/bib_api) to dynamically look up the Hathi Record URL when our catalog display an item from the processed overlap report, that would mean we don't know which items were available until page load, meaning it would not reflect in our existing affordances for "Online Resources" like facets. To integrate with existing affordances, we need to get the data into the Solr collection that powers our catalog.
 
-Based on the [Hathi docs on linking](https://www.hathitrust.org/automatic_login), we want to link to Record pages, as they provide the most context for our users. It seemed to me the best way to identify the needed record numbers was to use "[Hathifiles](https://www.hathitrust.org/hathifiles)", which are "tab-delimited text files that describe every item in the HathiTrust collection." These files include the OCLC number and record id for each item, which seemed to provide a path to link our overalp report to the records.
+Based on the [Hathi docs on linking](https://www.hathitrust.org/automatic_login), we want to link to Record pages, as they provide the most context for our users. It seemed to me the best way to identify the needed record numbers was to use "[Hathifiles](https://www.hathitrust.org/hathifiles)", which are "tab-delimited text files that describe every item in the HathiTrust collection." These files include the OCLC number and record id for each item, which seemed to provide a path to link our overlap report to the records.
 
-Specifically, I downloaded [hathi_full_20200201.txt.gz](https://www.hathitrust.org/filebrowser/download/291461) and [hathi_field_list.txt](https://www.hathitrust.org/filebrowser/download/269539). I want the final file to have headers, so the first thing I did was save `hathi_fieild_list.txt` to a new file called `hathi_with_headers` and then append the full record listing into that. To avoid unzipping the full record file first, I used gzcat
+Specifically, I downloaded [hathi_full_20200201.txt.gz](https://www.hathitrust.org/filebrowser/download/291461) and [hathi_field_list.txt](https://www.hathitrust.org/filebrowser/download/269539). I want the final file to have headers, so the first thing I did was save `hathi_field_list.txt` to a new file called `hathi_with_headers` and then append the full record listing into that. To avoid unzipping the full record file first, I used gzcat
 
 ```gzcat hathi_full_20200201.txt.gz >> hathi_with_headers```
 
@@ -169,15 +171,15 @@ This file is about 4.3GB, so totally unwieldy to work with, so first thing I’m
 
 Since I previously split up our overlap files by type (mono, serial, and multi),  I did the same for the full record list, hoping to get it down to a set of manageable chunks to work with. What’s odd though, is that Hathi's full record file uses a different set of terms of those types. The values are instead BK, SE, MP, which I interpret as Book, Serial, and MultiPart.
 
-So, to get just the books from the hathi full record list I run
+So, to get just the books from the Hathi full record list I run
 
 ```bash
-cat hathi_with_header | csvgrep -t -c 20 -m BK -z=1310720 > hathi_with_header_books.csv 
+cat hathi_with_header | csvgrep -t -c 20 -m BK -z=1310720 > hathi_with_header_books.csv
 ```
 
 Breaking that down:
 
-* `-t` : tab delimted
+* `-t` : tab delimited
 * `-c 20`: search in column 20, which in this case is bib_fmt
 * `-m BK`: use BK as the search term in the bib_fmt column
 * `-z=1310720`: csvkit has a default field size limit of 131072 characters, which apparently is too small for some Hathi records rows (I'm guessing the ones with unicode titles?). I multiplied the default by 10, just to be safe.
@@ -202,7 +204,7 @@ So...what to do now. We have:
   * mms_id
   * A few more fields that no longer seem as relevant
 * A list of all the books from Hathi with:
-  * htid: the hathi trust ID
+  * htid: the Hathi Trust ID
   * bib_key_id: another identifier used by HT items
   * oclc_number
 
@@ -224,11 +226,11 @@ Breaking that down:
 
 Now, I'll be honest, `csvjoin` with big old files like this is not performant. It took probably 30 minutes for this to run on my five year old mac book pro. Definitely could have been faster, but the results were exactly what *I thought* I wanted; a new file with the headers
 ```oclc,local_id,item_type,access,rights,htid,ht_bib_key```
-and a limited set of hathis IDs related to items in our overlap report.
+and a limited set of Hathi's IDs related to items in our overlap report.
 
 ## Mistaken Mental Model
 
-So, just to do some basic smoke testing, I wanted to make sure the number of rows in `ht_overlap_mono.csv` was equal to the number of rows in the new `joined_overlap_hathi.csv`. 
+So, just to do some basic smoke testing, I wanted to make sure the number of rows in `ht_overlap_mono.csv` was equal to the number of rows in the new `joined_overlap_hathi.csv`.
 
 ```bash
 wc -l ht_overlap_mono.csv
@@ -290,44 +292,47 @@ How could a join on unique ids hand have more rows than the number of ids in the
                          1,274,588 (77x)
 ```
 
-Lots of identifiers were reused many times. Looking back at the orignal data files, I realized that the Hathi metadata file has many records with the same oclc_num, representing either difeerent digitized copies of the same item, or multiple volumes of the same item. Additionally, the overlap report contained many entries with duplicate oclc numbers, because the report is at the physical item level, letting Hathi know how many copies of something we have so they know how many users to allow access to it.
+Lots of identifiers were reused many times. Looking back at the orignal data files, I realized that the Hathi metadata file has many records with the same oclc_num, representing either difeerent digitized copies of the same item, or multiple volumes of the same item. Additionally, the overlap report contained many entries with duplicate OCLC numbers, because the report is at the physical item level, letting Hathi know how many copies of something we have so they know how many users to allow access to it.
 
 Luckily, this is a problem that `uniq` was built to solve.
 
 Additionally, in reading a bit more about Hathi's data and the links we'd want to be constructing, I realized that the best ID to use for linking is not the `htid`, which links to an individual instance of an record, often without much context, but the `ht_bib_key` which links to a landing page with all available copies of an item, plus useful metadata.
 
-So, going back to `hathi_with_headers`, to get just the oclc number and ht_bib_key for all rows I ran:
+So, going back to `hathi_with_headers`, to get just the OCLC number and ht_bib_key for all rows I ran:
 
-`csvcut -t -c 4,8 -z 1310720 hathi_with_header  > hathi_with_header_all_types_oclc_and_bibkeyid.csv`
+```bash
+csvcut -t -c 4,8 -z 1310720 \
+hathi_with_header  > hathi_with_header_all_types_oclc_and_bibkeyid.csv
+```
 
-and then, to remove lines without either an oclc number or ht_bib_key:
+and then, to remove lines without either an OCLC number or ht_bib_key:
 
 ```bash
 csvgrep -c 1,2 -r ".+"  hathi_with_header_all_types_oclc_and_bibkeyid.csv > hathi_with_header_all_types_oclc_and_bibkeyid_no_nulls.cs
 ```
 
-and then finally, used the standard *nix `uniq` command to remove duplicate lines.(Luckily, the Hathi file is already sorted, with rows with the same oclc num being next to each other, which `uniq` requires.)
+and then finally, used the standard *nix `uniq` command to remove duplicate lines.(Luckily, the Hathi file is already sorted, with rows with the same OCLC num being next to each other, which `uniq` requires.)
 
 ```bash
 cat hathi_with_header_all_types_oclc_and_bibkeyid_no_nulls.csv | uniq > hathi_with_header_all_types_oclc_and_bibkeyid_unique.csv
 ```
 
-So now we have a file with all of the Hathi items with just an oclc number and a ht_bib_key. Now what we need is an list of oclc numbers to filter it by.
+So now we have a file with all of the Hathi items with just an OCLC number and a ht_bib_key. Now what we need is an list of OCLC numbers to filter it by.
 
-So, going back to our original overalp report, to get a list of items of all types but limit it to just the oclc number we can run:
+So, going back to our original overlap report, to get a list of items of all types but limit it to just the OCLC number we can run:
 
 ```bash
 csvgrep -t -c -4 -r ".+" overlap_20200316_temple.tsv | csvcut -c 1 > overlap_all.csv
 ```
 
-But that list contains some repeated oclc numbers that we want to eliminate, so we use `csvsort` to sort the row (not all oclc numbers were in adjacent rows), while retaining the first row as the header.
+But that list contains some repeated OCLC numbers that we want to eliminate, so we use `csvsort` to sort the row (not all OCLC numbers were in adjacent rows), while retaining the first row as the header.
 
 ```bash
 cat overlap_all.csv | csvsort | uniq > overlap_all_unique.csv
 
 ```
 
-Now we have the second file we need, which is just a big list of oclc numbers. But how to filter the full list by the second?
+Now we have the second file we need, which is just a big list of OCLC numbers. But how to filter the full list by the second?
 
 My first thought was to use `csvjoin` again, but it returned an empty csv file. And reflecting on it, there was nothing to actually "join" in the SQL sense, since one of the csv files was a one column set of id's to be used for the join.
 
@@ -339,4 +344,49 @@ So...after all that...🥁🥁🥁
 csvgrep -c 2 -f overlap_all_unique.csv hathi_with_header_all_types_oclc_and_bibkeyid_unique.csv > hathi_filtered_by_overlap.csv
 ```
 
-got me the exact set of data I was looking for: the list of OCLC numbers and corresposning ht_bib_keys that Hathi knows that Temple holds. And it comes in at just 12MB. Small enough to quickly grep for oclc numbers while we are indexing records to see what Hathi bib key we want to add.
+got me the exact set of data I was looking for:
+
+```csv
+ht_bib_key,oclc_num
+000000008,241
+000000009,252
+...680K more lines
+102691351,1474971
+102691365,10498545
+```
+
+Essentially, we built a simple lookup table with OCLC numbers and the corresponding ht_bib_keys that Hathi knows that Temple holds. And it comes in at just 12MB. Small enough to quickly grep for OCLC numbers while we are indexing records to see what Hathi bib key we want to add. How we used that lookup table will have to wait for the next post.
+
+## Summary
+
+ Download the latest HathiTrust monthly file (i.e. hathi_full_20200401.txt.gz ) from the [HathiFiles page](https://www.hathitrust.org/hathifiles).
+
+Pare the large file down to just the needed data (OCLC number and Hathi Trust bib key) with:
+
+* csvcut to limit to just the needed columns
+* csvgrep to eliminate rows without required fields
+* sort and uniq to eliminate duplicates
+
+```bash
+gunzip - c hathi_full_20200401.txt.gz|  \
+  csvcut -t -c 4,8 -z 1310720 | \
+  csvgrep -c 1,2 -r ".+" | \
+  sort | uniq > hathi_full_dedupe.csv
+```
+
+Take the overlap report HathiTrust provides and extract the unique set of OCLC numbers:
+
+```bash
+csvgrep -t -c -4 -r ".+" overlap_20200316_temple.tsv | \
+  csvcut -c 1 > | csvsort | uniq  \
+  > overlap_all_unique.csv
+```
+
+Then filter the pared down Hathi data using the overlap OCLC numbers as the filter input:
+
+```bash
+csvgrep -c 2 -f overlap_all_unique.csv \
+  hathi_full_dedupe.csv > hathi_filtered_by_overlap.csv
+```
+
+`hathi_filtered_by_overlap.csv` is a two column csv of related OCLC numbers and Hathi Bib Keys that Hathi knows are in your library, which you can use to construct links to Hathi Trust items based on OCLC numbers in catalog records.
