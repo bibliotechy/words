@@ -15,6 +15,7 @@ This post meanders a bit, as it mostly documents my organic process of understan
 
 Also, huge shout out to [Frances Webb's blog post](http://blogs.cornell.edu/discoveryandaccess/2020/04/01/adding-hathitrust-emergency-access-links/) on how Cornell worked with the Hathi overlap report to get links into their catalog, as it helped me skip a few steps in understanding the shape of data, and some pitfalls to avoid.
 
+
 ------
 
 ## Understanding the data
@@ -31,7 +32,9 @@ The overlap file provided by Hathi is a five column TSV file, with columns:
 * access: allow, deny or blank
 * rights : many different values, none of which are important for our use case.
 
-The file is about 100Mb, so not enormous, but big enough that some process were a bit slow. There wasn't any documentation of the overlap file that I know of, but I was able to infer some stuff from browsing the data a bit, and from looking at Hathi's data documentation.
+The file is about 100Mb, so not enormous, but big enough that some process were a bit slow. There wasn't any documentation of the overlap file that I know of, but I was able to infer some stuff from browsing the data a bit, and from looking at Hathi's data documentation. 
+
+*Update 4/30/2020*: Thanks to Graham Dethmers from HathiTrust, I know know there *is* [overlap report documentation](https://www.hathitrust.org/hathitrust-overlap-reports) as well as a [guide to adding ETAS records to your catalog](https://www.hathitrust.org/how-to-add-etas-records-to-your-catalog).
 
 During the ETAS, we will have access to all of the items with either `allow` or `deny` in the access column. If the access column is empty, it means Hathi does not have a copy of it, so there is nothing to link to, so we can effectively ignore those.
 
