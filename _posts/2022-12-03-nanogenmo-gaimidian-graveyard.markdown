@@ -23,6 +23,7 @@ I ran this with three sample mp3 first
 
 <hr>
 <br>
+
 [Librivox recording of Jane Austen's *Emma*](https://ia803406.us.archive.org/20/items/emma_version_5_1002_librivox/emma_01_austen_64kb.mp3)
 
 *Original Audio*
@@ -366,6 +367,7 @@ Mm.
 <br>
 <hr>
 <br>
+
 [Will Self reading a Borges Story](https://static.guim.co.uk/audio/kip/books/series/books/1354894458366/9687/gdn.book.121215.tm.Will-Self-Jorge-Luis-Borges-story.mp3)
 
 *Original Audio*
@@ -384,100 +386,381 @@ Mm.
 </audio>
 
 <details>
-<summary>Transcribed midi</summary>
+  <summary>Transcribed midi</summary>
+
+1
+00:00:00,000 --> 00:00:20,180
 The procedure is here…
+
+2
+00:00:20,180 --> 00:00:31,180
 In the 12th and 15th of next year's time, I'll do a three-pointer.
+
+3
+00:00:31,180 --> 00:00:36,180
 In this empire, we are top of the three-pointer set.
+
+4
+00:00:36,180 --> 00:00:42,180
 That's the single spot of my empire.
+
+5
+00:00:42,180 --> 00:00:47,180
 That's the single spot of my empire.
+
+6
+00:00:47,180 --> 00:00:52,180
 Hitting the mine was done by a fellow named Haylike.
+
+7
+00:00:52,180 --> 00:00:54,180
 That's the spot for the three-pointer.
+
+8
+00:00:54,180 --> 00:00:58,180
 That's the land that I discovered in the past.
+
+9
+00:00:58,180 --> 00:01:03,180
 That's to be the victims' home in the end.
+
+10
+00:01:03,180 --> 00:01:11,180
 Of a creative constitution that I found at best if I opened it that day.
+
+11
+00:01:11,180 --> 00:01:13,680
 GTN 12���
+
+12
+00:01:13,680 --> 00:01:15,180
 One of the men.
+
+13
+00:01:15,180 --> 00:01:20,180
 Not without conflict, but they simply did it up,
+
+14
+00:01:20,180 --> 00:01:24,180
 they went to the bottom.
+
+15
+00:01:24,180 --> 00:01:28,180
 The dead went to the grave,
+
+16
+00:01:28,180 --> 00:01:31,180
 but the exit moved for the first time,
+
+17
+00:01:31,180 --> 00:01:33,180
 and if I am,
+
+18
+00:01:33,180 --> 00:01:40,180
 but if I am, there is no other way.
+
+19
+00:01:40,180 --> 00:01:45,180
 The dead went to the grave,
+
+20
+00:01:45,180 --> 00:01:48,180
 but the exit moved for the first time,
+
+21
+00:01:48,180 --> 00:01:50,180
 and if I am,
+
+22
+00:01:50,180 --> 00:02:13,180
 but if I am, there is no other way.
+
+23
+00:02:13,180 --> 00:02:21,180
 The dead went to the grave,
+
+24
+00:02:21,180 --> 00:02:26,180
 but the exit moved for the first time,
+
+25
+00:02:26,180 --> 00:02:28,180
 and if I am,
+
+26
+00:02:28,180 --> 00:02:36,180
 but if I am, there is no other way.
+
+27
+00:02:36,180 --> 00:02:44,180
 The dead went to the grave,
+
+28
+00:02:44,180 --> 00:02:49,180
 but the exit moved for the first time,
+
+29
+00:02:49,180 --> 00:02:51,180
 and if I am,
+
+30
+00:02:51,180 --> 00:02:57,180
 but if I am, there is no other way.
+
+31
+00:02:57,180 --> 00:03:03,180
 The dead went to the grave,
+
+32
+00:03:03,180 --> 00:03:07,180
 but the exit moved for the first time,
+
+33
+00:03:07,180 --> 00:03:09,180
 and if I am,
+
+34
+00:03:09,180 --> 00:03:17,180
 but if I am, there is no other way.
+
+35
+00:03:17,180 --> 00:03:23,180
 The dead went to the grave,
+
+36
+00:03:23,180 --> 00:03:27,180
 but the exit moved for the first time,
+
+37
+00:03:27,180 --> 00:03:29,180
 and if I am,
+
+38
+00:03:29,180 --> 00:03:36,180
 but if I am, there is no other way.
+
+39
+00:03:36,180 --> 00:03:41,180
 The dead went to the grave,
+
+40
+00:03:41,180 --> 00:03:44,180
 but the exit moved for the first time,
+
+41
+00:03:44,180 --> 00:03:46,180
 and if I am,
+
+42
+00:03:46,180 --> 00:03:51,180
 but if I am, there is no other way.
+
+43
+00:03:51,180 --> 00:03:53,180
 I get down on my knees and think
+
+44
+00:03:53,180 --> 00:03:55,180
 that I can do more than I think.
+
+45
+00:03:55,180 --> 00:03:56,180
 It won't let me think
+
+46
+00:03:56,180 --> 00:03:58,180
 that I can do more than I think.
+
+47
+00:03:58,180 --> 00:04:00,180
 I can do it.
+
+48
+00:04:00,180 --> 00:04:02,180
 I'm not a fool.
+
+49
+00:04:02,180 --> 00:04:05,180
 The dead went to the grave,
+
+50
+00:04:05,180 --> 00:04:09,180
 but the exit moved for the first time,
+
+51
+00:04:09,180 --> 00:04:11,180
 and if I am,
+
+52
+00:04:11,180 --> 00:04:16,180
 but if I am, there is no other way.
+
+53
+00:04:16,180 --> 00:04:19,180
 The dead went to the grave,
+
+54
+00:04:19,180 --> 00:04:22,180
 but the exit moved for the first time,
+
+55
+00:04:22,180 --> 00:04:23,180
 and if I am,
+
+56
+00:04:23,180 --> 00:04:27,180
 but if I am, there is no other way.
+
+57
+00:04:27,180 --> 00:04:29,180
 I get down on my knees and think
+
+58
+00:04:29,180 --> 00:04:34,180
 that I can do more than I think.
+
+59
+00:04:34,180 --> 00:04:36,180
 I can do it.
+
+60
+00:04:36,180 --> 00:04:38,180
 I'm not a fool.
+
+61
+00:04:38,180 --> 00:04:41,180
 The dead went to the grave,
+
+62
+00:04:41,180 --> 00:04:45,180
 but the exit moved for the first time,
+
+63
+00:04:45,180 --> 00:04:47,180
 and if I am,
+
+64
+00:04:47,180 --> 00:04:52,180
 but if I am, there is no other way.
+
+65
+00:04:52,180 --> 00:04:54,180
 I get down on my knees and think
+
+66
+00:04:54,180 --> 00:04:56,180
 that I can do more than I think.
+
+67
+00:04:56,180 --> 00:04:57,180
 I can do it.
+
+68
+00:04:57,180 --> 00:04:59,180
 I'm not a fool.
+
+69
+00:04:59,180 --> 00:05:01,180
 The dead went to the grave,
+
+70
+00:05:01,180 --> 00:05:04,180
 but the exit moved for the first time,
+
+71
+00:05:04,180 --> 00:05:05,180
 and if I am,
+
+72
+00:05:05,180 --> 00:05:09,180
 but if I am, there is no other way.
+
+73
+00:05:09,180 --> 00:05:11,180
 I get down on my knees and think
+
+74
+00:05:11,180 --> 00:05:13,180
 that I can do more than I think.
+
+75
+00:05:13,180 --> 00:05:14,180
 I can do it.
+
+76
+00:05:14,180 --> 00:05:15,180
 I'm not a fool.
+
+77
+00:05:15,180 --> 00:05:17,180
 The dead went to the grave,
+
+78
+00:05:17,180 --> 00:05:20,180
 but the exit moved for the first time,
+
+79
+00:05:20,180 --> 00:05:21,180
 and if I am,
+
+80
+00:05:21,180 --> 00:05:24,180
 but if I am, there is no other way.
+
+81
+00:05:24,180 --> 00:05:26,180
 I get down on my knees and think
+
+82
+00:05:26,180 --> 00:05:28,180
 that I can do more than I think.
+
+83
+00:05:28,180 --> 00:05:30,180
 I can do it.
+
+84
+00:05:30,180 --> 00:05:32,180
 I'm not a fool.
+
+85
+00:05:32,180 --> 00:05:34,180
 The dead went to the grave,
+
+86
+00:05:34,180 --> 00:05:37,180
 but the exit moved for the first time,
+
+87
+00:05:37,180 --> 00:05:38,180
 and if I am,
+
+88
+00:05:38,180 --> 00:05:42,180
 but if I am, there is no other way.
+
+89
+00:05:42,180 --> 00:05:45,180
 I get down on my knees and think
+
+90
+00:05:45,180 --> 00:05:49,180
 that I can do more than I think.
+
+91
+00:05:49,180 --> 00:05:51,180
 I'm not a fool,
+
+92
+00:05:51,180 --> 00:05:53,180
 the dead went to the grave,
+
+93
+00:05:53,180 --> 00:05:58,180
 It's the end of the world, it's the end of the world.
+
+
 
 </details>
 <br>
@@ -502,6 +785,11 @@ It's the end of the world, it's the end of the world.
   type="audio/mp3"
   >
 </audio>
+
+<details>
+  <summary> Midified Transcript</summary>
+
+</details>
 
 Then, on a whim, I tried 
 
