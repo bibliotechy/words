@@ -36,7 +36,7 @@ I ran this with three sample mp3 first
 
 <audio controls>
   <source 
-    src="../assets/emma_01_01_austen-roundtripped.mp3" type="audio/mp3">
+    src="/words/assets/emma_01_01_austen-roundtripped.mp3" type="audio/mp3">
 </audio>
 
 <details>
@@ -60,7 +60,7 @@ I ran this with three sample mp3 first
 
 <audio controls>
   <source 
-    src="../assets/borges-roundtripped.mp3" type="audio/mp3">
+    src="/words/assets/borges-roundtripped.mp3" type="audio/mp3">
 </audio>
 
 <details>
@@ -178,7 +178,7 @@ It's the end of the world, it's the end of the world.
 
 <audio controls>
   <source
-  src="../assets/james-earl-jones-roundtripped.mp3"
+  src="/words/assets/james-earl-jones-roundtripped.mp3"
   type="audio/mp3"
   >
 </audio>
