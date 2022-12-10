@@ -2,7 +2,6 @@
 layout: post
 title:  "Gaimidian Graveyard"
 date:   2022-12-03 00:00:00 -0400
-categories: ['audio', 'video', 'midi', 'nanogenmo', 'generative art']
 ---
 
 This year, my plan for [NaNoGenMo](https://nanogenmo.github.io/) was to generate random noise that would be detected as words by speech-to-text processing, and use those to write a book. The idea was loosely inspired by [Reverse OCR bot](https://github.com/dariusk/reverseocr), which has always been one of my favorite projects that probes the absurd edges of what it means for a computer to "recognize" human language. 
